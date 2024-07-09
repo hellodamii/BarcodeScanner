@@ -10,8 +10,6 @@ import SwiftUI
 struct BarcodeScannerView: View {
     var body: some View {
         ZStack {
-            Color.black.opacity(0.7)
-                .ignoresSafeArea(.all)
             VStack {
                 Button {
                     
@@ -27,18 +25,34 @@ struct BarcodeScannerView: View {
                 
                 
                 VStack {
-                    Text("Scan the QR code")
+                    Spacer()
+                    Text("Place the QR code inside the area")
                         .fontWeight(.medium)
                         .font(.system(size: 18))
-                    Rectangle()
-                        .strokeBorder(style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round, dash: []))
-                        .foregroundColor(.newGray)
-                        .frame(width: 244, height: 244)
-                        .cornerRadius(36)
-                        .padding()
+                    Text("Scanning will start automatically")
+                        .font(.callout)
+                        .opacity(0.5)
                     
-                    Button {
+                    
+                    ZStack{
+                        ForEach(0...4, id: \.self) {
+                            index in let rotation = Double(index) * 90
+                            
+                            RoundedRectangle(cornerRadius: 36, style: .circular)
+                                .trim(from: 0.57, to: 0.67)
+                                .stroke(Color("newGray"), style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round))
+                                .rotationEffect(.init(degrees: rotation))
+                        }
+                        .frame(width: 244, height: 244)
+                        .padding()
+                       
                         
+
+                    }
+                    Spacer()
+                    
+        
+                    Button{
                     } label: {
                         Label ("Enter manually", systemImage: "keyboard")
                     }
@@ -62,5 +76,5 @@ struct BarcodeScannerView: View {
 
 #Preview {
     BarcodeScannerView()
-        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+        .preferredColorScheme(.dark)
 }
