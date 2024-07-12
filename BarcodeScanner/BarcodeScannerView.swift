@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  BarcodeScanner
 //
-//  Created by Busha on 08/07/2024.
+//  Created by Damilare on 08/07/2024.
 //
 
 import SwiftUI
@@ -33,22 +33,27 @@ struct BarcodeScannerView: View {
                         .font(.callout)
                         .opacity(0.5)
                     
+                        .padding(.bottom)
                     
                     ZStack{
-                        ForEach(0...4, id: \.self) {
-                            index in let rotation = Double(index) * 90
-                            
-                            RoundedRectangle(cornerRadius: 36, style: .circular)
-                                .trim(from: 0.57, to: 0.67)
-                                .stroke(Color("newGray"), style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round))
-                                .rotationEffect(.init(degrees: rotation))
-                        }
-                        .frame(width: 244, height: 244)
-                        .padding()
                        
-                        
-
+                            ScannerView()
+                            .cornerRadius(36)
+                            .background(
+                                
+                                ForEach(0...4, id: \.self){
+                                    index in let rotation = Double(index * 90)
+                               
+                            
+                                    RoundedRectangle(cornerRadius: 36, style: .circular)
+                                    .trim(from: 0.57, to: 0.67)
+                                    .stroke(Color(.newGray), style: StrokeStyle(lineWidth: 8,
+                                                                                lineCap: .round, lineJoin: .round))
+                                    .rotationEffect(.init(degrees: rotation))
+                                }
+                            )
                     }
+                    .frame(width: 244, height: 244)
                     Spacer()
                     
         
