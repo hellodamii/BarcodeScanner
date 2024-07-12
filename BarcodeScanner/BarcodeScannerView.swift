@@ -47,7 +47,7 @@ struct BarcodeScannerView: View {
                             
                                     RoundedRectangle(cornerRadius: 36, style: .circular)
                                     .trim(from: 0.57, to: 0.67)
-                                    .stroke(Color(.newGray), style: StrokeStyle(lineWidth: 8,
+                                    .stroke(Color(.newGray), style: StrokeStyle(lineWidth: 6,
                                                                                 lineCap: .round, lineJoin: .round))
                                     .rotationEffect(.init(degrees: rotation))
                                 }
@@ -56,6 +56,11 @@ struct BarcodeScannerView: View {
                     .frame(width: 244, height: 244)
                     Spacer()
                     
+                    
+                    Text("Not Yet Scanned")
+                        .font(.title3)
+                        .foregroundColor(.white)
+                        .padding()
         
                     Button{
                     } label: {
