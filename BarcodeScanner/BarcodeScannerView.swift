@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct BarcodeScannerView: View {
+    
+    @State private var scannedCode = ""
+    
     var body: some View {
         ZStack {
             VStack {
@@ -37,7 +40,7 @@ struct BarcodeScannerView: View {
                     
                     ZStack{
                        
-                            ScannerView()
+                            ScannerView(scannedCode: $scannedCode)
                             .cornerRadius(36)
                             .background(
                                 
@@ -57,9 +60,10 @@ struct BarcodeScannerView: View {
                     Spacer()
                     
                     
-                    Text("Not Yet Scanned")
+                    Text(scannedCode.isEmpty ? "Scanning..." : scannedCode)
                         .font(.title3)
-                        .foregroundColor(.white)
+                        .bold()
+                        .foregroundColor(scannedCode.isEmpty ? .white : .green)
                         .padding()
         
                     Button{
