@@ -10,6 +10,7 @@ import SwiftUI
 struct BarcodeScannerView: View {
     
     @State private var scannedCode = ""
+    @State private var isShowingAlert = false
     
     var body: some View {
         ZStack {
@@ -67,6 +68,7 @@ struct BarcodeScannerView: View {
                         .padding()
         
                     Button{
+                        isShowingAlert = true
                     } label: {
                         Label ("Enter manually", systemImage: "keyboard")
                     }
@@ -76,6 +78,9 @@ struct BarcodeScannerView: View {
                     .controlSize(.extraLarge)
                     .tint(.newGray)
                 }
+                .alert(isPresented: $isShowingAlert, content: {
+                    Alert(title: Text("Manual input unsupported"), message: Text("Update your app to use this function"), dismissButton: .default(Text("Update app")))
+                })
                 .padding(24)
                 
                 Spacer()
