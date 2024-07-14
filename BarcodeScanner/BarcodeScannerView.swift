@@ -61,8 +61,8 @@ struct BarcodeScannerView: View {
                     
                     
                     Text(scannedCode.isEmpty ? "Scanning..." : scannedCode)
-                        .font(.title3)
-                        .bold()
+                        .font(scannedCode.isEmpty ? .headline: .title3)
+                        .fontWeight(scannedCode.isEmpty ? .regular : .bold)
                         .foregroundColor(scannedCode.isEmpty ? .white : .green)
                         .padding()
         
