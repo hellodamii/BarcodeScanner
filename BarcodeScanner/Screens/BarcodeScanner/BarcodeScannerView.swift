@@ -7,23 +7,10 @@
 
 import SwiftUI
 
-
-struct AlertItem {
-    let title: String
-    let message: String
-    let dismissButton: Alert.Button
-}
-
-struct AlertContext {
-    static let invalidDeviceInput = AlertItem(title: "Invalid Device Input", message: "Something is wrong with the camera. We are unable to capture the input.", dismissButton: .default(Text("Ok")))
-    
-    static let invalidScannedType = AlertItem(title: "Invalid Scanned Type", message: "The value scanned is not valid. This app scans EAN-8, EAN-13 and QR", dismissButton: .default(Text("Ok")))
-}
 struct BarcodeScannerView: View {
     
-    @State private var scannedCode = ""
-    @State private var alertItem: AlertItem?
-    @State private var isShowingAlert = false
+   @StateObject var viewModel = BarcodeScannerViewModel()
+    
     
     var body: some View {
         ZStack {
@@ -54,7 +41,7 @@ struct BarcodeScannerView: View {
                     
                     ZStack{
                        
-                            ScannerView(scannedCode: $scannedCode)
+                        ScannerView(scannedCode: $viewModel.scannedCode, alertItem: $viewModel.alertItem)
                             .cornerRadius(36)
                             .background(
                                 
@@ -74,14 +61,14 @@ struct BarcodeScannerView: View {
                     Spacer()
                     
                     
-                    Text(scannedCode.isEmpty ? "Scanning..." : scannedCode)
-                        .font(scannedCode.isEmpty ? .headline: .title3)
-                        .fontWeight(scannedCode.isEmpty ? .regular : .bold)
-                        .foregroundColor(scannedCode.isEmpty ? .white : .green)
+                    Text(viewModel.statusText)
+                        .font(viewModel.scannedCode.isEmpty ? .headline: .title3)
+                        .fontWeight(viewModel.scannedCode.isEmpty ? .regular : .bold)
+                        .foregroundColor(viewModel.statusTextColor)
                         .padding()
         
                     Button{
-                        isShowingAlert = true
+                      
                     } label: {
                         Label ("Enter manually", systemImage: "keyboard")
                     }
@@ -91,9 +78,12 @@ struct BarcodeScannerView: View {
                     .controlSize(.extraLarge)
                     .tint(.newGray)
                 }
-                .alert(isPresented: $isShowingAlert, content: {
-                    Alert(title: Text("Manual input unsupported"), message: Text("Update your app to use this function"), dismissButton: .default(Text("Update app")))
-                })
+                
+                .alert(item: $viewModel.alertItem) { alertItem in
+                    Alert(title: Text(alertItem.title),
+                          message: Text(alertItem.message),
+                          dismissButton: alertItem.dismissButton)
+                }
                 .padding(24)
                 
                 Spacer()
